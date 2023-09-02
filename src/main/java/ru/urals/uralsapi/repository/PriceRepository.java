@@ -22,7 +22,7 @@ import java.util.Optional;
 public interface PriceRepository extends CrudRepository<Price, Long> {
 
     /**
-     * Returns price for corresponding date.
+     * Gets price for corresponding date.
      *
      * @param date date to use for getting
      * @return Optional price that contains price for given date if it exists,
@@ -31,20 +31,18 @@ public interface PriceRepository extends CrudRepository<Price, Long> {
     Optional<Price> getPriceByDate(LocalDate date);
 
     /**
-     * Returns the prices in the given range of dates.
+     * Gets the prices in the given range of dates.
      *
      * @param dateBefore start of date range
-     * @param dateAfter end of date range
+     * @param dateAfter  end of date range
      * @return list of prices that fall within given range of dates
      */
     List<Price> getPriceByDateBetween(LocalDate dateBefore, LocalDate dateAfter);
 
     /**
-     * Returns the minimum price in the database.
+     * Gets the minimum price in the database.
      *
-     * <p>The method executes a custom query to find the minimum price in the database.
-     * It returns an Optional object that contains the minimum price if it exists,
-     * or an empty Optional if there are no prices in the database.</p>
+     * <p>The method executes a custom query to find the minimum price in the database.</p>
      *
      * @return an Optional price that contains the minimum price if it exists,
      * or an empty Optional if there are no prices in the database
@@ -53,15 +51,24 @@ public interface PriceRepository extends CrudRepository<Price, Long> {
     Optional<Price> findMinPrice();
 
     /**
-     * Returns the maximum price in the database.
+     * Gets the maximum price in the database.
      *
-     * <p>The method executes a custom query to find the maximum price in the database.
-     * It returns an Optional object that contains the maximum price if it exists,
-     * or an empty Optional if there are no prices in the database.</p>
+     * <p>The method executes a custom query to find the maximum price in the database.</p>
      *
      * @return an Optional price that contains the maximum price if it exists,
      * or an empty Optional if there are no prices in the database
      */
     @Query("SELECT p FROM Price p WHERE p.price = (SELECT MAX(price) FROM Price)")
     Optional<Price> findMaxPrice();
+
+    /**
+     * Returns
+     *
+     * <p>The method executes a custom query to find an average price for the whole database.</p>
+     *
+     * @return Optional Double that contains an average price if it exists,
+     * or an empty Optional if there are no prices in the database.
+     */
+    @Query(nativeQuery = true, value = "SELECT AVG(price) FROM price")
+    Optional<Double> averagePrice();
 }

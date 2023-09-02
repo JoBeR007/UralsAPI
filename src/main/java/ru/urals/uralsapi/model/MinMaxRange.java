@@ -15,6 +15,10 @@ public class MinMaxRange {
     private Double min;
     @JsonProperty("max")
     private Double max;
+    @JsonProperty("difference")
+    private Double difference;
+    @JsonProperty("average")
+    private Double average;
     @JsonProperty("minDate")
     private LocalDate minDate;
     @JsonProperty("maxDate")
@@ -23,18 +27,20 @@ public class MinMaxRange {
     private Long amount;
 
     public MinMaxRange(Double min, LocalDate minDate,
-                       Double max, LocalDate maxDate, Long amount) {
+                       Double max, LocalDate maxDate, Long amount, Double difference, Double average) {
         this.min = min;
         this.minDate = minDate;
         this.max = max;
         this.maxDate = maxDate;
         this.amount = amount;
+        this.difference = difference;
+        this.average = average;
     }
 
-    public MinMaxRange(Double min, Double max, Long amount) {
+    public MinMaxRange(Double min, Double max, Double difference) {
         this.min = min;
         this.max = max;
-        this.amount = amount;
+        this.difference = difference;
     }
 
     public MinMaxRange(Double min, Double max) {
@@ -83,5 +89,13 @@ public class MinMaxRange {
 
     public void setMaxDate(LocalDate maxDate) {
         this.maxDate = maxDate;
+    }
+
+    public Double getDifference() {
+        return difference;
+    }
+
+    public void setDifference(Double difference) {
+        this.difference = difference;
     }
 }

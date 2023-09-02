@@ -17,7 +17,7 @@ public class DateParser {
      * @param dateStr date string to be parsed
      * @return LocalDate date representing parsed date
      */
-    public static LocalDate parseDateFromString(String dateStr){
+    public static LocalDate parseDateFromString(String dateStr) {
         DateTimeFormatter form = DateTimeFormatter.ofPattern(dateFormat).withLocale(Locale.US);
         return LocalDate.parse(dateStr, form);
     }

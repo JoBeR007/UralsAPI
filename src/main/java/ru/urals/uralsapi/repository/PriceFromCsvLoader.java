@@ -1,5 +1,6 @@
 package ru.urals.uralsapi.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import ru.urals.uralsapi.model.Headers;
@@ -20,6 +21,7 @@ import java.util.Locale;
  * that may not match the fields of the entity,
  * therefore it uses Headers enum with defined headers</p>
  */
+@Slf4j
 public class PriceFromCsvLoader {
 
     /**
@@ -32,7 +34,7 @@ public class PriceFromCsvLoader {
     public static void LoadPricesFromCsv(String fileName, PriceRepository repository, String dateFormat) {
         DateTimeFormatter form = DateTimeFormatter.ofPattern(dateFormat).withLocale(Locale.US);
         try {
-            // Reading csv file
+            log.info("Reading CSV file");
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.builder()
                     .setSkipHeaderRecord(true).setHeader(Headers.class)
                     .build().parse(new FileReader(fileName));
@@ -46,9 +48,9 @@ public class PriceFromCsvLoader {
                 repository.save(price);
             }
         } catch (FileNotFoundException ex) {
-            System.err.println("Could not find the CSV file: " + ex);
+            log.error("Could not find the CSV file: " + ex.getMessage());
         } catch (IOException ex) {
-            System.err.println("Error reading the CSV file: " + ex);
+            log.error("Error reading the CSV file: " + ex.getMessage());
         }
     }
 }
