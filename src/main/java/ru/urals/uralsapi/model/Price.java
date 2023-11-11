@@ -18,15 +18,13 @@ import java.util.Objects;
 @Entity
 public class Price {
 
-
+    @Id
     private LocalDate date;
     private Double price;
     private Double open;
     private Double high;
     private Double low;
     private String change;
-    private @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) Long id;
 
     public Price(LocalDate date, Double price, Double open,
                  Double high, Double low, String change) {
@@ -93,38 +91,38 @@ public class Price {
         this.change = change;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Price price1 = (Price) o;
-        return id.equals(price1.id) && price.equals(price1.price) && date.equals(price1.date);
+        if (!date.equals(price1.date)) return false;
+        if (!price.equals(price1.price)) return false;
+        if (!open.equals(price1.open)) return false;
+        if (!high.equals(price1.high)) return false;
+        if (!low.equals(price1.low)) return false;
+        return change.equals(price1.change);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, date);
+        int result = date.hashCode();
+        result = 31 * result + price.hashCode();
+        result = 31 * result + open.hashCode();
+        result = 31 * result + high.hashCode();
+        result = 31 * result + low.hashCode();
+        result = 31 * result + change.hashCode();
+        return result;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Price{");
-        sb.append("date=").append(date);
-        sb.append(", price=").append(price);
-        sb.append(", open=").append(open);
-        sb.append(", high=").append(high);
-        sb.append(", low=").append(low);
-        sb.append(", change='").append(change).append('\'');
-        sb.append(", id=").append(id);
-        sb.append('}');
-        return sb.toString();
+        return "Price{" + "date=" + date +
+                ", price=" + price +
+                ", open=" + open +
+                ", high=" + high +
+                ", low=" + low +
+                ", change='" + change + '\'' +
+                '}';
     }
 }

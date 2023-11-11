@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Class for preloading data into the prices repository
@@ -46,10 +49,12 @@ public class LoadRepository {
                 log.info("Preloading data from CSV");
                 PriceFromCsvLoader.LoadPricesFromCsv(fileName, repository, dateFormat);
 
-                FileWriter Writer = new FileWriter("src/main/resources/db_initialized");
-                Writer.write("Prices were successfully loaded!");
-                Writer.close();
+                FileWriter writer = new FileWriter("src/main/resources/db_initialized");
+                writer.write("Prices were successfully loaded!");
+                writer.close();
             }
+            //DateTimeFormatter form = DateTimeFormatter.ofPattern(dateFormat).withLocale(Locale.US);
+            //repository.deleteByDate(LocalDate.parse("09/02/2023", form));
         };
     }
 }

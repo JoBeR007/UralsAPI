@@ -1,11 +1,7 @@
 package ru.urals.uralsapi.repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import ru.urals.uralsapi.model.Price;
 
 import java.time.LocalDate;
@@ -29,6 +25,9 @@ public interface PriceRepository extends CrudRepository<Price, Long> {
      * or an empty Optional if there is no price for given date
      */
     Optional<Price> getPriceByDate(LocalDate date);
+
+
+    void deleteByDate(LocalDate date);
 
     /**
      * Gets the prices in the given range of dates.

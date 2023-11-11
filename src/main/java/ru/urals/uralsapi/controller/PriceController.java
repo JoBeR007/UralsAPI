@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import ru.urals.uralsapi.model.Price;
 import ru.urals.uralsapi.repository.PriceRepository;
 import ru.urals.uralsapi.util.DateParser;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -39,7 +41,6 @@ public class PriceController {
      * @return Response entity with instance of created Price
      * or HttpStatus.CONFLICT for already present Price
      */
-    @Cacheable(key = "#newPrice")
     @PostMapping
     public ResponseEntity<Price> create(@RequestBody Price newPrice) {
         log.info("Creating new Price");
@@ -52,13 +53,14 @@ public class PriceController {
     /**
      * Deletes Price from repository by given id
      *
-     * @param id price id
+     * @param date price date
      * @return Response entity with HttpStatus.OK or HttpStatus.BAD_REQUEST
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteById(@PathVariable Long id) {
-        if (repository.findById(id).isPresent()) {
-            repository.deleteById(id);
+    @DeleteMapping("/{date}")
+    public ResponseEntity<HttpStatus> deleteByDate
+    (@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        if (repository.getPriceByDate(date).isPresent()) {
+            repository.deleteByDate(date);
             return new ResponseEntity<>(HttpStatus.OK);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
