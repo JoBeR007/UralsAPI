@@ -26,8 +26,14 @@ public interface PriceRepository extends CrudRepository<Price, Long> {
      */
     Optional<Price> getPriceByDate(LocalDate date);
 
-
-    void deleteByDate(LocalDate date);
+    /**
+     * Deletes price for corresponding date.
+     *
+     * @param date date to use for deleting
+     * @return true if Price was present and was successfully deleted
+     * and false if no Price object with the specified date was found in the repository, so no deletion occurred
+     */
+    boolean deleteByDate(LocalDate date);
 
     /**
      * Gets the prices in the given range of dates.

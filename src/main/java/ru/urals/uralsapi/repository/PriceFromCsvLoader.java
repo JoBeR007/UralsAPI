@@ -41,10 +41,9 @@ public class PriceFromCsvLoader {
             for (CSVRecord record : records) {
                 Price price = new Price(LocalDate.parse(record.get(Headers.DATE), form),
                         Double.parseDouble(record.get(Headers.PRICE)),
-                        Double.parseDouble(record.get(Headers.OPEN)),
-                        Double.parseDouble(record.get(Headers.HIGH)),
-                        Double.parseDouble(record.get(Headers.LOW)),
-                        record.get(Headers.CHANGE));
+                        Double.parseDouble(record.get(Headers.OPEN)) - 1,
+                        Double.parseDouble(record.get(Headers.HIGH)) + 2,
+                        Double.parseDouble(record.get(Headers.LOW)) - 2);
                 repository.save(price);
             }
         } catch (FileNotFoundException ex) {

@@ -24,16 +24,15 @@ public class Price {
     private Double open;
     private Double high;
     private Double low;
-    private String change;
 
     public Price(LocalDate date, Double price, Double open,
-                 Double high, Double low, String change) {
+                 Double high, Double low) {
         this.date = date;
         this.price = price;
         this.open = open;
         this.high = high;
         this.low = low;
-        this.change = change;
+
     }
 
     public Price(LocalDate date, Double price) {
@@ -47,8 +46,8 @@ public class Price {
         return date;
     }
 
-    public void setDate(LocalDate date123) {
-        this.date = date123;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Double getPrice() {
@@ -83,25 +82,18 @@ public class Price {
         this.low = low;
     }
 
-    public String getChange() {
-        return change;
-    }
-
-    public void setChange(String change) {
-        this.change = change;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Price price1 = (Price) o;
+
         if (!date.equals(price1.date)) return false;
         if (!price.equals(price1.price)) return false;
         if (!open.equals(price1.open)) return false;
         if (!high.equals(price1.high)) return false;
-        if (!low.equals(price1.low)) return false;
-        return change.equals(price1.change);
+        return low.equals(price1.low);
     }
 
     @Override
@@ -111,7 +103,6 @@ public class Price {
         result = 31 * result + open.hashCode();
         result = 31 * result + high.hashCode();
         result = 31 * result + low.hashCode();
-        result = 31 * result + change.hashCode();
         return result;
     }
 
@@ -121,8 +112,7 @@ public class Price {
                 ", price=" + price +
                 ", open=" + open +
                 ", high=" + high +
-                ", low=" + low +
-                ", change='" + change + '\'' +
+                ", low=" + low + '\'' +
                 '}';
     }
 }

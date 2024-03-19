@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,39 +52,21 @@ public class PriceController {
     }
 
     /**
-     * Deletes Price from repository by given id
+     * Deletes Price from repository by given date
      *
      * @param date price date
      * @return Response entity with HttpStatus.OK or HttpStatus.BAD_REQUEST
      */
-    @DeleteMapping("/{date}")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteByDate
-    (@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        if (repository.getPriceByDate(date).isPresent()) {
-            repository.deleteByDate(date);
+    (@RequestParam(name = "date") String date) {
+        log.info("Getting Price by date: {}", date);
+        boolean result = repository.deleteByDate(DateParser.parseDateFromString(date));
+        if (result)
             return new ResponseEntity<>(HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    /**
-     * Gets Price for given id
-     *
-     * @param id price id
-     * @return Response entity with price if it is present
-     * or HttpStatus.BAD_REQUEST if it is not present
-     */
-    @Cacheable(key = "#id")
-    @GetMapping("/by-id/{id}")
-    public ResponseEntity<Price> findById(@PathVariable Long id) {
-        log.info("Getting Price by id");
-        Optional<Price> result = repository.findById(id);
-        if (result.isPresent()) {
-            return new ResponseEntity<>(result.get(), HttpStatus.OK);
-        } else {
-            log.info("No price for id: {}", id);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
 
     /**
      * Gets price value for given date
@@ -151,6 +134,18 @@ public class PriceController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    /**
+     * Method for obtaining List of Prices for given range of dates
+     *
+     * @param from LocalDate starting point
+     * @param to LocalDate ending point
+     * @return List of Prices for given range
+     */
+    public List<Price> getPricesByDateBetween(LocalDate from, LocalDate to) {
+        return repository.getPriceByDateBetween(from, to);
+    }
+
 
     /**
      * Gets minimum and maximum price values for given range of dates

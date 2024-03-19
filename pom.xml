@@ -23,6 +23,9 @@
         <commons-csv.version>1.10.0</commons-csv.version>
         <lombok.version>1.18.28</lombok.version>
         <junit.version>4.13.2</junit.version>
+        <javafx-beans.version>17</javafx-beans.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <jfc.version>1.0.13</jfc.version>
     </properties>
 
     <dependencyManagement>
@@ -67,6 +70,21 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-beans</artifactId>
+                <version>${javafx-beans.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jfree</groupId>
+                <artifactId>jfreechart</artifactId>
+                <version>${jfc.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -110,6 +128,14 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
         </dependency>
     </dependencies>
 

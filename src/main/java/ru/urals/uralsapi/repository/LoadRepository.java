@@ -53,8 +53,6 @@ public class LoadRepository {
                 writer.write("Prices were successfully loaded!");
                 writer.close();
             }
-            //DateTimeFormatter form = DateTimeFormatter.ofPattern(dateFormat).withLocale(Locale.US);
-            //repository.deleteByDate(LocalDate.parse("09/02/2023", form));
         };
     }
 }
