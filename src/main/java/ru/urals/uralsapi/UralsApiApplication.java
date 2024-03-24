@@ -18,7 +18,7 @@ public class UralsApiApplication {
 
     public static void main(String[] args) {
         log.info("Entering application");
-
+        System.setProperty("java.awt.headless", "false");
         ConfigurableApplicationContext context = SpringApplication.run(UralsApiApplication.class, args);
 
         // Get the PriceController bean from the Spring application context
