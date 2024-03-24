@@ -31,6 +31,7 @@ public class PriceChartView extends JPanel {
     private ChartPanel chartPanel;
     private JSpinner startDateSpinner;
     private JSpinner endDateSpinner;
+    private StatisticsPanel statisticsPanel;
 
 
     /**
@@ -39,9 +40,11 @@ public class PriceChartView extends JPanel {
      * It also creates the controls for the start and end date and adds them to a separate panel.
      *
      * @param viewModel The view model that this view will interact with.
+     * @param statisticsPanel for displaying different statistics and predictions based on displayed data
      */
-    public PriceChartView(PriceChartViewModel viewModel) {
+    public PriceChartView(PriceChartViewModel viewModel, StatisticsPanel statisticsPanel) {
         this.viewModel = viewModel;
+        this.statisticsPanel = statisticsPanel;
         this.setLayout(new BorderLayout());
 
         // Create the chart and add it to a ChartPanel
@@ -68,12 +71,14 @@ public class PriceChartView extends JPanel {
             Date date = (Date) startDateSpinner.getValue();
             viewModel.setStartTime(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             refresh();
+            statisticsPanel.refresh();
         });
 
         endDateSpinner.addChangeListener(e -> {
             Date date = (Date) endDateSpinner.getValue();
             viewModel.setEndTime(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             refresh();
+            statisticsPanel.refresh();
         });
     }
 
@@ -156,18 +161,16 @@ public class PriceChartView extends JPanel {
         DefaultHighLowDataset dataset = createDataset();
 
         // Check if the dataset is empty
-        if (dataset.getItemCount(0) == 0) {
-            // If the dataset is empty, display an error message
-            JOptionPane.showMessageDialog(this,
-                    "No prices available for the selected date range.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
+        if (dataset.getItemCount(0) != 0) {
             // If the dataset is not empty, update the chart's dataset
             XYPlot plot = (XYPlot) chart.getPlot();
             plot.setDataset(dataset);
 
             // Repaint the chart to reflect the new data
             chartPanel.repaint();
+        } else {
+            // If the dataset is empty, display an error message
+            //JOptionPane.showMessageDialog(this, "No prices available for the selected date range.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

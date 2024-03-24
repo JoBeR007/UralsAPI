@@ -24,7 +24,8 @@ public class PriceView {
 
         log.info("Creating the ViewModel and View");
         PriceChartViewModel viewModel = new PriceChartViewModel(priceController);
-        PriceChartView view = new PriceChartView(viewModel);
+        StatisticsPanel stats = new StatisticsPanel(viewModel);
+        PriceChartView view = new PriceChartView(viewModel, stats);
 
         log.info("Creating a JFrame and adding the View to it");
         SwingUtilities.invokeLater(() -> {
@@ -33,6 +34,7 @@ public class PriceView {
             frame.setLayout(new BorderLayout());
             frame.getContentPane().add(view, BorderLayout.CENTER);
             frame.add(new AddPricePanel(viewModel), BorderLayout.EAST);
+            frame.add(stats, BorderLayout.SOUTH);
             frame.pack();
             frame.setVisible(true);
         });

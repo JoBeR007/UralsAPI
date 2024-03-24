@@ -26,6 +26,7 @@
         <javafx-beans.version>17</javafx-beans.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <jfc.version>1.0.13</jfc.version>
+        <math3.version>3.6.1</math3.version>
     </properties>
 
     <dependencyManagement>
@@ -85,6 +86,11 @@
                 <artifactId>jfreechart</artifactId>
                 <version>${jfc.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-math3</artifactId>
+                <version>${math3.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -108,6 +114,10 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
